@@ -1,11 +1,13 @@
-[]{#anchor}How Promise Works
+How Promise Works
+=================
 
-[]{#anchor-1}Types of Pubic Keys
+Types of Pubic Keys
+-------------------
 
 Promise distinguishes 5 types of data structures that are or hold public
 keys.
 
-[]{#anchor-2}Address Public Key
+### Address Public Key
 
 An *address public key*, or *address* for short, is a pair (*spk, epk*)
 where:
@@ -22,7 +24,7 @@ signature on the next transaction under a given public key; this public
 key is a re-randomization of *spk*; the randomness used for this
 re-randomization is encrypted under *epk*.
 
-[]{#anchor-3}Identity Public Key
+###Identity Public Key
 
 *Identity public keys* are used exclusively in the context of the
 Pledge. They are used to identify the parties to the Pledge, verify
@@ -47,9 +49,10 @@ under the authorizer public key. In other words, this property
 guarantees that only authorized parties (*i.e.*, those that have
 received the proxy information) can make payments.
 
-[]{#anchor-4}How Transactions Work
+How Transactions Work
+---------------------
 
-[]{#anchor-5}Ephemeral UTXOs
+### Ephemeral UTXOs
 
 In Promise, the *unspent transaction outputs (UTXOs)* are *ephemeral*
 because they are used once and then discarded, just like the key in
@@ -63,7 +66,7 @@ transferred, and zero-knowledge proofs to establish that no new coins
 are being created. Technically though, the zero-knowledge proofs are
 part of the transaction and not the UTXOs.
 
-[]{#anchor-6}Script, MAST, and mast\_hash
+### Script, MAST, and mast\_hash
 
 The script determines whether a transaction is valid or not. In
 particular, each input UTXO commits to a script which evaluates to True
@@ -73,7 +76,7 @@ input UTXOs evaluate to True.
 Any node in the script’s abstract syntax tree can be replaced by the
 hash
 
-*h = *H(*node type *||* value*)
+*h* = H(*node type *||* value*)
 
 where:
 
@@ -87,8 +90,8 @@ where:
 
 As a result, the tree is simultaneously an abstract syntax tree and a
 Merkle tree: the root is a cryptographic commitment to the entire tree.
-The data structure is called Merkelized Abstract Syntax Tree, or *MAST
-*for short.
+The data structure is called Merkelized Abstract Syntax Tree, or *MAST*
+for short.
 
 The purpose of this replacement is to make it possible to show that a
 script evaluates to True without revealing all of it. When only some
@@ -103,7 +106,7 @@ variable, then an assignment to this variable must additionally be
 provided. Otherwise the script cannot be evaluated because its value
 depends on the value of undetermined variables.
 
-[]{#anchor-7}Step-by-step
+### Step-by-step
 
 Suppose Alice has 30 coins and wants to send 10 of them to Bob. She
 transfers them by following the following steps.
@@ -113,20 +116,20 @@ transfers them by following the following steps.
 2.  Alice generates a UTXO for Bob. This step decomposes into:
 
     a.  Alice generates a commitment to the number 10 (the number of
-        > coins); this output is *amt*.
+        coins); this output is *amt*.
 
     b.  Alice chooses a sufficiently long random bitstring *randomness*.
 
     c.  Alice re-randomizes Bob’s signature public key using this
-        > *randomness*; this output is *rspk*.
+        *randomness*; this output is *rspk*.
 
     d.  Alice encrypts this randomness with Bob’s encryption public key;
-        > this output is *ctxt = E*~*epk*~*(randomness)*.
+        this output is *ctxt = E*~*epk*~*(randomness)*.
 
     e.  Alice generates a script: “VerifySig(*rspk*, \$transaction,
-        > \$signature)” where *rspk *is hardcoded and takes the value of
-        > the re-randomized signature public key. Alice computes
-        > *mast\_hash* as the hash of this script.
+        \$signature)” where *rspk *is hardcoded and takes the value of
+        the re-randomized signature public key. Alice computes
+        *mast\_hash* as the hash of this script.
 
     f.  The UTXO for Bob is the tuple (*amt, ctxt, mast\_hash*).
 
@@ -153,14 +156,15 @@ transfers them by following the following steps.
     the script and signature, and the zero-knowledge proof. Alice
     broadcasts this transaction to the network.
 
-[]{#anchor-8}How the Pledge Works
+How the Pledge Works
+--------------------
 
 The Pledge is a native data structure for repayment contracts. It was
 designed with three objectives in mind: 1) cultivation of reputation
 based on repayment history; 2) access control with regards to payments;
 3) anonymity with respect to authorized payers.
 
-[]{#anchor-9}Pledge Structure
+### Pledge Structure
 
 The Pledge is a contract agreed upon by the following parties:
 
@@ -182,7 +186,7 @@ outstanding spendable balance.
 After agreeing to the terms of the Pledge, the participants add their
 signatures and broadcast the data structure to the network.
 
-[]{#anchor-10}Paying into a Pledge
+### Paying into a Pledge
 
 In order to make a payment, Alice generates a transaction. The output
 UTXO is subtly different than regular ones:
@@ -196,7 +200,7 @@ She broadcasts the transaction to the network. As a result, the
 outstanding spendable balance of the *mast\_hash* of the indicated
 clause is increased by the given amount.
 
-[]{#anchor-11}Paying out of a Pledge
+### Paying out of a Pledge
 
 In order to pay out of a Pledge, Bob makes a transaction. The input UTXO
 consists of (*amt, ctxt, mast\_hash*) where
@@ -211,7 +215,7 @@ assignment to the undetermined variables. To prevent replay attacks, the
 script verifies a signature on both the transaction and on the block
 height. Bob broadcasts the transaction to the network.
 
-[]{#anchor-12}Proxy Repayment
+### Proxy Repayment
 
 With the proxy re-signature scheme, only those parties that have
 received the proxy information can make payments into the Pledge.
@@ -221,7 +225,7 @@ generate proxy information for *any* identity public key. That person
 can then generate payments with signatures that, after the proxy
 transformation, are valid under the authorizer public key.
 
-[]{#anchor-13}Computing Reputation
+### Computing Reputation
 
 All Pledges and all transactions to them are public and stored on the
 blockchain. It is possible therefore to compute for each identity public
@@ -232,9 +236,10 @@ events and the average transaction fee at those points in time. These
 data points are the typical inputs to your favorite formula for
 computing a payment reputation score.
 
-[]{#anchor-14}How Pledge Chaining Works
+How Pledge Chaining Works
+-------------------------
 
-[]{#anchor-15}Pledge Update
+### Pledge Update
 
 A Pledge update allows Bob to trade spending rights to a Pledge. It is a
 message, broadcast to the network, consisting of:
@@ -251,7 +256,7 @@ against a hardcoded public key. If the script evaluates to True then all
 occurrence of the old *mast\_hash* in the Pledge are replaced by the new
 *mast\_hash*, and the outstanding spendable balance is transferred.
 
-[]{#anchor-16}Chaining
+### Chaining
 
 Pledge Chaining allows Bob to automatically redirect incoming payments
 from one Pledge where he is the Payee, to another Pledge where he is the
@@ -260,3 +265,4 @@ Pledges, Bob broadcasts a Pledge update, replacing his *mast\_hash* not
 with a new one *mast\_hash* but with PVM bytecode. This smart contract
 can then forward the incoming funds to the right address public key or
 secondary Pledge payment, possibly after performing other computations.
+
