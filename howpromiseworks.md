@@ -11,7 +11,7 @@ Promise distinguishes 5 types of data structures that are or hold public keys on
 An *address public key*, or *address* for short, is a pair (*spk, epk*)
 where:
 -   *spk* is the public key of a signature scheme with public key re-randomization. In particular, Promise uses the [LUOV](https://github.com/Promise-Protocol/Documentation/blob/master/Reference%20Papers/luov.pdf) scheme with re-randomization based on the IP problem.
--   *epk* is the public key of an encryption scheme with ciphertext / public key unlinkability. Promise uses NewHope.
+-   *epk* is the public key of an encryption scheme with ciphertext / public key unlinkability. Promise uses [NewHope](https://github.com/Promise-Protocol/Documentation/blob/master/Reference%20Papers/NewHope_2015-1092.pdf).
 
 Address public keys are used to receive payments. In particular, the *mast hash* of a UTXO generally hides a script that asks to verify a signature on the next transaction under a given public key; this public key is a re-randomization of *spk*; the randomness used for this re-randomization is encrypted under *epk*.
 
@@ -176,7 +176,7 @@ assignment to the undetermined variables. To prevent replay attacks, the
 script verifies a signature on both the transaction and on the block
 height. Bob broadcasts the transaction to the network.
 
-### Proxy Repayment
+### Proxy Repayment with Proxy Re-signatures
 
 With the proxy re-signature scheme, only those parties that have
 received the proxy information can make payments into the Pledge.
