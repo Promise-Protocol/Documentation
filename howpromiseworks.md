@@ -31,7 +31,7 @@ How Promise Transactions Work
 In Promise, the *unspent transaction outputs (UTXOs)* are *ephemeral* because they are used once and then discarded, just like the key in ephemeral key exchange protocols. Specifically, ephemeral UTXOs are unlinkable to the address they transfer coins to. This is accomplished by two elements: a signature scheme with public key re-randomization, and a public key encryption scheme with ciphertext / public key unlinkability. The ingredients for confidential transactions are in
 place: a commitment scheme to hide the amount of coins being transferred, and zero-knowledge proofs to establish that no new coins are being created. Technically though, the zero-knowledge proofs are part of the transaction and not the UTXOs.
 
-### Script, MAST, and mast\_hash
+### Script, MAST, and mast hash
 
 The script determines whether a transaction is valid or not. In particular, each input UTXO commits to a script which evaluates to True or to False. The transaction is valid only if all the scripts of all the input UTXOs evaluate to True.
 
@@ -49,19 +49,13 @@ where:
     string literal or number then the node’s value is exactly this
     value.
 
-As a result, the tree is simultaneously an abstract syntax tree and a
-Merkle tree: the root is a cryptographic commitment to the entire tree.
-The data structure is called Merkelized Abstract Syntax Tree, or *MAST*
-for short.
+As a result, the tree is simultaneously an abstract syntax tree and a Merkle tree: the root is a cryptographic commitment to the entire tree. The data structure is called Merkelized Abstract Syntax Tree, or *MAST* for short.
 
-The purpose of this replacement is to make it possible to show that a
-script evaluates to True without revealing all of it. When only some
-branches of the abstract syntax tree are needed to show that the script
-evaluates to True, the other branches may be hidden behind their hashes.
+The purpose of this replacement is to make it possible to show that a script evaluates to True without revealing all of it. When only some branches of the abstract syntax tree are needed to show that the script evaluates to True, the other branches may be hidden behind their hashes.
 
-The *mast\_hash* field of a UTXO represents the root of such a MAST.
+The *mast hash* field of a UTXO represents the root of such a MAST.
 
-Whenever a *mast\_hash* is opened to an authentication path and some
+Whenever a *mast hash* is opened to an authentication path and some
 terminal node in the resulting abstract syntax branch is an argument
 variable, then an assignment to this variable must additionally be
 provided. Otherwise the script cannot be evaluated because its value
@@ -92,7 +86,7 @@ transfers them by following the following steps.
         the re-randomized signature public key. Alice computes
         *mast\_hash* as the hash of this script.
 
-    f.  The UTXO for Bob is the tuple (*amt, ctxt, mast\_hash*).
+    f.  The UTXO for Bob is the tuple (*amt, ctxt, mast hash*).
 
 3.  Similarly, Alice generates a UTXO for herself, to represent the
     change. Since the change is 20 coins, the commitment here is to the
