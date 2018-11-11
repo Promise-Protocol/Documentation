@@ -49,7 +49,7 @@ where:
     string literal or number then the node’s value is exactly this
     value.
 
-As a result, the tree is simultaneously an abstract syntax tree and a Merkle tree: the root is a cryptographic commitment to the entire tree. The data structure is called Merkelized Abstract Syntax Tree, or *MAST* for short.
+As a result, the tree is simultaneously an abstract syntax tree and a Merkle tree: the root is a cryptographic commitment to the entire tree. The data structure is called [Merkelized Abstract Syntax Tree](https://github.com/Promise-Protocol/Documentation/blob/master/Reference%20Papers/Rubin_MAST_858report.pdf), or *MAST* for short.
 
 The purpose of this replacement is to make it possible to show that a script evaluates to True without revealing all of it. When only some branches of the abstract syntax tree are needed to show that the script evaluates to True, the other branches may be hidden behind their hashes.
 
