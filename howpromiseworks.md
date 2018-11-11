@@ -1,4 +1,4 @@
-How Promise Works (from the Stronger Promises Whitepaper)
+How Promise Works (from the [Stronger Promises Whitepaper](https://github.com/Promise-Protocol/Documentation/blob/master/Reference%20Papers/Stronger_Promises.pdf))
 -------------------
 
 Types of Promise Pubic Keys
@@ -10,7 +10,7 @@ Promise distinguishes 5 types of data structures that are or hold public keys on
 
 An *address public key*, or *address* for short, is a pair (*spk, epk*)
 where:
--   *spk* is the public key of a signature scheme with public key re-randomization. In particular, Promise uses the LUOV scheme with re-randomization based on the IP problem.
+-   *spk* is the public key of a signature scheme with public key re-randomization. In particular, Promise uses the [LUOV](https://github.com/Promise-Protocol/Documentation/blob/master/Reference%20Papers/luov.pdf) scheme with re-randomization based on the IP problem.
 -   *epk* is the public key of an encryption scheme with ciphertext / public key unlinkability. Promise uses NewHope.
 
 Address public keys are used to receive payments. In particular, the *mast hash* of a UTXO generally hides a script that asks to verify a signature on the next transaction under a given public key; this public key is a re-randomization of *spk*; the randomness used for this re-randomization is encrypted under *epk*.
