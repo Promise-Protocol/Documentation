@@ -1,2 +1,2 @@
 # Documentation
-Promise Documentation 
+Promise Documentation for the Promise Protocol.
